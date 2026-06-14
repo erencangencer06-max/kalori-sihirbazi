@@ -33,7 +33,6 @@
             min-height: 100vh;
         }
 
-        /* Ekran boyutuna göre genişleyen dinamik ana kutu */
         .app-container { 
             background: var(--card-bg); 
             width: 100%; 
@@ -44,7 +43,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Dinamik Font Boyutları (clamp sayesinde ekrana göre büyür/küçülür) */
         h1 { 
             text-align: center; 
             font-size: clamp(20px, 6vw, 24px); 
@@ -70,7 +68,6 @@
             color: #34495e;
         }
 
-        /* Esnek Satır Yapısı (Gerektiğinde alt alta geçer) */
         .row { 
             display: flex; 
             flex-wrap: wrap;
@@ -80,7 +77,7 @@
 
         .col { 
             flex: 1; 
-            min-width: 160px; /* Çok küçük ekranlarda yan yana duramazsa alt alta kayar */
+            min-width: 160px; 
             display: flex; 
             flex-direction: column; 
         }
@@ -112,7 +109,11 @@
             box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
         }
 
-        /* Mobil uyumlu geniş tıklama alanlı radyo butonları */
+        /* Boş bırakılan alanlar için placeholder rengi */
+        input::placeholder {
+            color: #cbd5e1;
+        }
+
         .radio-group { 
             display: flex; 
             gap: 15px; 
@@ -137,7 +138,6 @@
             cursor: pointer;
         }
 
-        /* Dinamik ve Modern Buton */
         button { 
             background: var(--primary); 
             color: white; 
@@ -163,7 +163,6 @@
             transform: translateY(1px);
         }
 
-        /* Yumuşak animasyonlu sonuç kutusu */
         .result-box { 
             display: none; 
             margin-top: 25px; 
@@ -219,18 +218,18 @@
         </div>
         <div class="col">
             <label>Yaşınız</label>
-            <input type="number" id="yas" value="23" min="1" max="120">
+            <input type="number" id="yas" placeholder="Örn: 23" min="1" max="120">
         </div>
     </div>
     
     <div class="row">
         <div class="col">
             <label>Kilonuz (kg)</label>
-            <input type="number" id="kilo" value="76.0" step="0.1" min="10" max="300">
+            <input type="number" id="kilo" placeholder="Örn: 76.0" step="0.1" min="10" max="300">
         </div>
         <div class="col">
             <label>Koşu Bandı Eğimi (%)</label>
-            <input type="number" id="egim" value="5.7" step="0.1" min="0" max="30">
+            <input type="number" id="egim" placeholder="Örn: 5.7" step="0.1" min="0" max="30">
         </div>
     </div>
     
@@ -238,11 +237,11 @@
     <div class="row">
         <div class="col">
             <label>Mesafe (km)</label>
-            <input type="number" id="mesafe" value="5.00" step="0.01" min="0.01">
+            <input type="number" id="mesafe" placeholder="Örn: 5.00" step="0.01" min="0.01">
         </div>
         <div class="col">
             <label>Süre (Dakika)</label>
-            <input type="number" id="sure" value="30" min="1" max="480">
+            <input type="number" id="sure" placeholder="Örn: 30" min="1" max="480">
         </div>
     </div>
     
@@ -259,15 +258,27 @@
 
 <script>
 function kaloriHesapla() {
-    const cinsiyet = document.querySelector('input[name="ciyesiyet"]:checked')?.value || document.querySelector('input[name="cinsiyet"]:checked').value;
-    const yas = parseInt(document.getElementById('yas').value) || 23;
-    const kilo = parseFloat(document.getElementById('kilo').value) || 76;
-    const egim = parseFloat(document.getElementById('egim').value) || 5.7;
-    const mesafe = parseFloat(document.getElementById('mesafe').value) || 0;
-    const sure = parseFloat(document.getElementById('sure').value) || 0;
+    const cinsiyet = document.querySelector('input[name="cinsiyet"]:checked').value;
+    const yasInput = document.getElementById('yas').value;
+    const kiloInput = document.getElementById('kilo').value;
+    const egimInput = document.getElementById('egim').value;
+    const mesafeInput = document.getElementById('mesafe').value;
+    const sureInput = document.getElementById('sure').value;
+    
+    // Eksik alan kontrolü
+    if(!yasInput || !kiloInput || !egimInput || !mesafeInput || !sureInput) {
+        alert("Lütfen tüm alanları doldurun kral!");
+        return;
+    }
+    
+    const yas = parseInt(yasInput);
+    const kilo = parseFloat(kiloInput);
+    const egim = parseFloat(egimInput);
+    const mesafe = parseFloat(mesafeInput);
+    const sure = parseFloat(sureInput);
     
     if(mesafe <= 0 || sure <= 0) {
-        alert("Lütfen mesafe ve süre değerlerini girin kral!");
+        alert("Mesafe ve süre değerleri 0'dan büyük olmalıdır!");
         return;
     }
     
@@ -311,8 +322,6 @@ function kaloriHesapla() {
     
     const resultBox = document.getElementById('resultBox');
     resultBox.style.display = "block";
-    
-    // Sonuç kutusuna otomatik yumuşak kaydırma (Mobil odaklı)
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 </script>
