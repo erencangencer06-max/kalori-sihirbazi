@@ -15,12 +15,15 @@
             --border: #e2e8f0;
         }
 
+        /* Yıldırım hızında açılması için sistem fontları ve render optimizasyonu */
         * { 
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             -webkit-tap-highlight-color: transparent;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
         }
 
         body { 
@@ -33,14 +36,15 @@
             min-height: 100vh;
         }
 
+        /* Tarayıcıya bu kutunun boyutunun sabit olduğunu söyleyerek hız kazandırıyoruz */
         .app-container { 
             background: var(--card-bg); 
             width: 100%; 
             max-width: 480px; 
             padding: clamp(15px, 5vw, 30px); 
             border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            contain: content; /* Performans dopingi */
         }
 
         h1 { 
@@ -100,16 +104,13 @@
             width: 100%; 
             outline: none; 
             background: #fdfdfd;
-            transition: all 0.2s ease;
         }
 
         input:focus { 
             border-color: var(--primary); 
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
         }
 
-        /* Boş bırakılan alanlar için placeholder rengi */
         input::placeholder {
             color: #cbd5e1;
         }
@@ -128,8 +129,6 @@
             font-size: 15px; 
             color: var(--text);
             cursor: pointer; 
-            text-transform: none;
-            letter-spacing: normal;
         }
 
         .radio-group input[type="radio"] {
@@ -149,18 +148,11 @@
             font-weight: 700; 
             cursor: pointer; 
             margin-top: 20px; 
-            box-shadow: 0 4px 12px rgba(41, 128, 185, 0.2);
-            transition: all 0.2s ease; 
+            transition: background 0.1s ease; 
         }
 
         button:hover { 
             background: var(--primary-hover); 
-            transform: translateY(-1px);
-            box-shadow: 0 6px 15px rgba(41, 128, 185, 0.3);
-        }
-
-        button:active {
-            transform: translateY(1px);
         }
 
         .result-box { 
@@ -171,12 +163,6 @@
             border-radius: 12px; 
             padding: 20px; 
             text-align: center; 
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .result-title { 
@@ -265,7 +251,6 @@ function kaloriHesapla() {
     const mesafeInput = document.getElementById('mesafe').value;
     const sureInput = document.getElementById('sure').value;
     
-    // Eksik alan kontrolü
     if(!yasInput || !kiloInput || !egimInput || !mesafeInput || !sureInput) {
         alert("Lütfen tüm alanları doldurun kral!");
         return;
