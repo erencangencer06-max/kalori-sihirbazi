@@ -1,6 +1,6 @@
 import streamlit as st
 
-# 1. SAYFA AYARLARI (Mobil cihazlarda tam ekran ve şık görünmesi için)
+# 1. SAYFA AYARLARI
 st.set_page_config(
     page_title="Kalori Sihirbazı", 
     page_icon="🏃", 
@@ -8,13 +8,38 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. GÖRSEL BAŞLIK VE GİRİŞ
+# 2. PRO KULLANIM İÇİN TÜM STREAMLIT LOGOLARINI, MENÜLERİNİ VE KULLANICI ADLARINI GİZLEYEN CSS KODU
+st.markdown("""
+    <style>
+        /* Sağ üstteki Streamlit menüsünü ve GitHub logosunu tamamen uçur */
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        
+        /* Sayfanın üstündeki gereksiz boşlukları ve çizgileri temizle */
+        .stAppDeployButton {display:none !important;}
+        .viewerBadge_container__1QS1h {display:none !important;}
+        
+        /* Sağ tarafta çıkan o çirkin kopyalama (copy) butonlarını tamamen gizle */
+        button[title="View source code"], button[title="Copy to clipboard"] {
+            display: none !important;
+        }
+        
+        /* Mobil görünümü daha derli toplu yap */
+        .block-container {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# 3. GÖRSEL BAŞLIK VE GİRİŞ
 st.title("🏃 Koşu Bandı Kalori Sihirbazı")
 st.markdown("##### *Laboratuvar tipi gelişmiş kalori hesaplama sistemi*")
-st.write("Bilgilerini girip 'Kaloriyi Hesapla' butonuna basman yeterli kral. Boş bıraktığın profil alanları senin standart değerlerine göre hesaplanır.")
+st.write("Bilgilerini girip 'Kaloriyi Hesapla' butonuna basman yeterli kral.")
 st.markdown("---")
 
-# 3. KULLANICI PROFİL ALANI (Biyometrik Veriler)
+# 4. KULLANICI PROFİL ALANI (Biyometrik Veriler)
 st.subheader("👤 Profil Bilgileri")
 col1, col2 = st.columns(2)
 
@@ -23,7 +48,6 @@ with col1:
 with col2:
     yas = st.number_input("Yaşınız", min_value=1, max_value=120, value=23, step=1)
 
-# Yan yana iki kolon daha açarak kilo ve eğimi yerleştiriyoruz
 col3, col4 = st.columns(2)
 with col3:
     kilo = st.number_input("Kilonuz (kg)", min_value=10.0, max_value=300.0, value=76.0, step=0.1)
@@ -32,7 +56,7 @@ with col4:
 
 st.markdown("---")
 
-# 4. ANTRENMAN VERİLERİ ALANI (Mesafe ve Süre)
+# 5. ANTRENMAN VERİLERİ ALANI (Mesafe ve Süre)
 st.subheader("📊 Antrenman Değerleri")
 col5, col6 = st.columns(2)
 
@@ -43,18 +67,15 @@ with col6:
 
 st.markdown("---")
 
-# 5. HESAPLAMA VE ÇIKTI MOTORU
+# 6. HESAPLAMA VE ÇIKTI MOTORU
 if st.button("🔥 KALORİYİ HESAPLA", type="primary", use_container_width=True):
     
-    # Arka plan veri dönüşümleri
     cinsiyet_kod = 'e' if cinsiyet == "Erkek" else 'k'
     egim_ondalik = egim / 100
     
-    # Hız Hesaplamaları (km/saat ve metre/dakika)
     hiz_km_sa = mesafe_km / (sure_dakika / 60)
     hiz_m_dk = hiz_km_sa * 16.6667
     
-    # Hıza Göre Akıllı Formül Seçimi (ACSM Standartları)
     if hiz_km_sa < 8.0:
         aktivite_turu = "Yürüyüş (Walking)"
         vo2 = (0.1 * hiz_m_dk) + (1.8 * hiz_m_dk * egim_ondalik) + 3.5
@@ -62,10 +83,8 @@ if st.button("🔥 KALORİYİ HESAPLA", type="primary", use_container_width=True
         aktivite_turu = "Koşu (Running)"
         vo2 = (0.2 * hiz_m_dk) + (0.9 * hiz_m_dk * egim_ondalik) + 3.5
     
-    # Aktivite anındaki brüt oksijen tüketimi kalorisi
     brut_kalori = ((vo2 * kilo) / 200) * sure_dakika
     
-    # Biyometrik Harris-Benedict Düzeltmesi (Yağ/Kas ve Metabolizma Yaşı Dengesi)
     if cinsiyet_kod == 'e':
         bazal_metabolizma = 66.47 + (13.75 * kilo) + (5.0 * 170) - (6.75 * yas)
         yas_faktoru = max(0.90, 1.0 - ((yas - 20) * 0.002))
@@ -76,15 +95,12 @@ if st.button("🔥 KALORİYİ HESAPLA", type="primary", use_container_width=True
     dakikalik_bazal = bazal_metabolizma / 1440
     antrenman_bazal = dakikalik_bazal * sure_dakika
     
-    # Net harcanan kalori ve gerçekçi sapma aralığı (+- %2)
     net_kalori = (brut_kalori - antrenman_bazal) * yas_faktoru + antrenman_bazal
     alt_sinir = round(net_kalori * 0.98)
     ust_sinir = round(net_kalori * 1.02)
     
-    # EKRAA ŞIK SONUÇ KARTLARI BASMA
     st.success(f"### 🎉 Tahmini Yakılan Kalori: {alt_sinir} - {ust_sinir} kcal")
     
-    # İstatistikleri yan yana gösteren şık kutular (Metrics)
     res_col1, res_col2, res_col3 = st.columns(3)
     with res_col1:
         st.metric(label="Hesaplanan Hız", value=f"{hiz_km_sa:.2f} km/s")
@@ -93,4 +109,4 @@ if st.button("🔥 KALORİYİ HESAPLA", type="primary", use_container_width=True
     with res_col3:
         st.metric(label="Efor Süresi", value=f"{int(sure_dakika)} dk")
         
-    st.balloons() # Hesaplama bitince ekrandan yukarı balonlar uçuran tatlı bir kutlama efekti
+    st.balloons()
