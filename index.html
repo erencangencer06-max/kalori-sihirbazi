@@ -5,111 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kalori Sihirbazı</title>
     <style>
-        /* TEMA DEĞİŞKENLERİ */
         :root {
-            /* Işık Modu (Varsayılan) */
-            --bg: #f4f6f8;
-            --card-bg: #ffffff;
-            --text: #2c3e50;
-            --sub-text: #7f8c8d;
-            --border: #e2e8f0;
-            --input-bg: #fdfdfd;
-            --primary: #2980b9;
-            --primary-hover: #2171a3;
-            --success: #27ae60;
-            --result-bg: #ebf5fb;
-            --result-border: #d4e6f1;
+            --bg: #f4f6f8; --card-bg: #ffffff; --text: #2c3e50;
+            --sub-text: #7f8c8d; --border: #e2e8f0; --input-bg: #fdfdfd;
+            --primary: #2980b9; --primary-hover: #2171a3; --success: #27ae60;
+            --result-bg: #ebf5fb; --result-border: #d4e6f1;
         }
-
-        /* Karanlık Mod Renkleri */
         body.dark-mode {
-            --bg: #121212;
-            --card-bg: #1e1e1e;
-            --text: #e0e0e0;
-            --sub-text: #a0a0a0;
-            --border: #333333;
-            --input-bg: #2a2a2a;
-            --result-bg: #1a2634;
-            --result-border: #2c3e50;
+            --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0;
+            --sub-text: #a0a0a0; --border: #333333; --input-bg: #2a2a2a;
+            --result-bg: #1a2634; --result-border: #2c3e50;
         }
-
-        * { 
-            box-sizing: border-box; margin: 0; padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            -webkit-tap-highlight-color: transparent;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -webkit-user-select: none; user-select: none;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-
-        body { 
-            background-color: var(--bg); color: var(--text); 
-            padding: min(5vw, 30px); display: flex; justify-content: center; align-items: center; min-height: 100vh;
-        }
-
-        .app-container { 
-            background: var(--card-bg); width: 100%; max-width: 480px; 
-            padding: clamp(15px, 5vw, 30px); border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative;
-        }
-
-        /* TEMA DEĞİŞTİRME BUTONU (Sağ Üst) */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -webkit-user-select: none; user-select: none; }
+        body { background-color: var(--bg); color: var(--text); padding: min(5vw, 30px); display: flex; justify-content: center; align-items: center; min-height: 100vh; transition: background-color 0.3s ease; }
+        .app-container { background: var(--card-bg); width: 100%; max-width: 480px; padding: clamp(15px, 5vw, 30px); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
         .theme-toggle {
-            position: absolute; top: 15px; right: 15px;
-            background: var(--border); border: none; width: 40px; height: 40px;
-            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 20px; z-index: 100;
+            position: absolute; top: 15px; right: 15px; background: var(--border); border: none; 
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; 
+            align-items: center; justify-content: center; font-size: 20px; z-index: 100;
+            flex-shrink: 0; transition: background-color 0.3s ease; line-height: 1; padding: 0; overflow: hidden;
         }
-
-        h1 { text-align: center; font-size: clamp(20px, 6vw, 24px); font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+        h1 { text-align: center; font-size: clamp(20px, 6vw, 24px); font-weight: 800; margin-bottom: 6px; }
         p.subtitle { text-align: center; font-size: clamp(12px, 3.5vw, 14px); color: var(--sub-text); margin-bottom: 25px; font-style: italic; }
-        h2 { font-size: clamp(14px, 4.5vw, 16px); margin: 20px 0 12px 0; border-bottom: 2px solid var(--border); padding-bottom: 6px; font-weight: 700; }
-
+        h2 { font-size: clamp(14px, 4.5vw, 16px); margin: 20px 0 12px 0; border-bottom: 2px solid var(--border); padding-bottom: 6px; font-weight: 700; color: var(--text); }
         .row { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; }
         .col { flex: 1; min-width: 160px; display: flex; flex-direction: column; }
         label { font-size: 11px; font-weight: 700; margin-bottom: 6px; color: var(--sub-text); text-transform: uppercase; }
-
-        input, select { 
-            padding: 12px; border: 2px solid var(--border); border-radius: 10px; 
-            font-size: 15px; font-weight: 500; width: 100%; outline: none; 
-            background: var(--input-bg); color: var(--text);
-            -webkit-user-select: text; user-select: text;
-        }
-        input:focus { border-color: var(--primary); }
-        input::placeholder { color: var(--sub-text); opacity: 0.5; }
-
+        input { padding: 12px; border: 2px solid var(--border); border-radius: 10px; font-size: 15px; width: 100%; outline: none; background: var(--input-bg); color: var(--text); -webkit-user-select: text; user-select: text; }
         .radio-group { display: flex; gap: 15px; padding: 6px 0; }
-        .radio-group label { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; color: var(--text); cursor: pointer; text-transform: none; }
-
-        button.calc-btn { 
-            background: var(--primary); color: white; border: none; padding: 16px; 
-            width: 100%; border-radius: 12px; font-size: 17px; font-weight: 700; 
-            cursor: pointer; margin-top: 20px; 
-        }
-        button.calc-btn:hover { background: var(--primary-hover); }
-
-        .result-box { 
-            display: none; margin-top: 25px; background: var(--result-bg); 
-            border: 2px solid var(--result-border); border-radius: 12px; padding: 20px; text-align: center; 
-        }
+        .radio-group label { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; cursor: pointer; }
+        button.calc-btn { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; margin-top: 20px; }
+        .result-box { display: none; margin-top: 25px; background: var(--result-bg); border: 2px solid var(--result-border); border-radius: 12px; padding: 20px; text-align: center; }
         .result-title { color: var(--success); font-size: 22px; font-weight: 800; margin-bottom: 12px; }
         .metrics { display: flex; justify-content: space-around; border-top: 1px solid var(--border); padding-top: 12px; font-size: 14px; color: var(--sub-text); }
         .metric-val { font-weight: 700; color: var(--text); }
     </style>
     <script>
-        // GÜVENLİK: iframe kilit
         if (window.top !== window.self) { window.top.location = window.self.location; }
     </script>
 </head>
 <body>
-
 <div class="app-container">
     <button class="theme-toggle" onclick="toggleTheme()" title="Temayı Değiştir">🌓</button>
-
     <h1>🏃 Kalori Sihirbazı</h1>
     <p class="subtitle">Laboratuvar tipi gelişmiş kalori hesaplama sistemi</p>
-    
     <h2>👤 Profil Bilgileri</h2>
     <div class="row">
         <div class="col">
@@ -124,7 +63,6 @@
             <input type="number" id="yas" placeholder="Örn: 23" min="1" max="120">
         </div>
     </div>
-    
     <div class="row">
         <div class="col">
             <label>Kilonuz (kg)</label>
@@ -135,7 +73,6 @@
             <input type="number" id="egim" placeholder="Örn: 5.7" step="0.1" min="0" max="30">
         </div>
     </div>
-    
     <h2>📊 Antrenman Değerleri</h2>
     <div class="row">
         <div class="col">
@@ -147,9 +84,7 @@
             <input type="number" id="sure" placeholder="Örn: 30" min="1" max="480">
         </div>
     </div>
-    
     <button class="calc-btn" onclick="kaloriHesapla()">🔥 KALORİYİ HESAPLA</button>
-    
     <div id="resultBox" class="result-box">
         <div id="kaloriSonuc" class="result-title"></div>
         <div class="metrics">
@@ -158,72 +93,27 @@
         </div>
     </div>
 </div>
-
 <script>
-    // TEMA MOTORU
-    function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
-
-    // Başlangıçta temayı kontrol et
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-    }
-
-    // GÜVENLİK: Sağ tık ve klavye koruma
+    function toggleTheme() { document.body.classList.toggle('dark-mode'); localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+    if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); }
     document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', e => {
-        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85)) {
-            e.preventDefault(); return false;
-        }
-    });
-
+    document.addEventListener('keydown', e => { if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85)) { e.preventDefault(); return false; } });
     function kaloriHesapla() {
         const cinsiyet = document.querySelector('input[name="cinsiyet"]:checked').value;
-        const yasInput = document.getElementById('yas').value;
-        const kiloInput = document.getElementById('kilo').value;
-        const egimInput = document.getElementById('egim').value;
-        const mesafeInput = document.getElementById('mesafe').value;
-        const sureInput = document.getElementById('sure').value;
-        
-        if(!yasInput || !kiloInput || !egimInput || !mesafeInput || !sureInput) {
-            alert("Lütfen tüm alanları doldurun kral!"); return;
-        }
-        
-        const yas = parseInt(yasInput); const kilo = parseFloat(kiloInput); const egim = parseFloat(egimInput); const mesafe = parseFloat(mesafeInput); const sure = parseFloat(sureInput);
-        if(mesafe <= 0 || sure <= 0) { alert("Mesafe ve süre değerleri 0'dan büyük olmalıdır!"); return; }
-        
-        const egimOndalik = egim / 100; const hizKmSa = mesafe / (sure / 60); const hizMDk = hizKmSa * 16.6667;
-        let vo2 = 0; let aktiviteTuru = "";
-        
-        if (hizKmSa < 8.0) { aktiviteTuru = "Yürüyüş"; vo2 = (0.1 * hizMDk) + (1.8 * hizMDk * egimOndalik) + 3.5; } 
-        else { aktiviteTuru = "Koşu"; vo2 = (0.2 * hizMDk) + (0.9 * hizMDk * egimOndalik) + 3.5; }
-        
-        const brutKalori = ((vo2 * kilo) / 200) * sure;
-        let bazalMetabolizma = 0; let yasFaktoru = 0;
-        
-        if (cinsiyet === 'e') {
-            bazalMetabolizma = 66.47 + (13.75 * kilo) + (5.0 * 170) - (6.75 * yas);
-            yasFaktoru = Math.max(0.90, 1.0 - ((yas - 20) * 0.002));
-        } else {
-            bazalMetabolizma = 655.1 + (9.56 * kilo) + (1.85 * 170) - (4.68 * yas);
-            yasFaktoru = Math.max(0.85, 0.92 - ((yas - 20) * 0.002));
-        }
-        
-        const dakikalikBazal = bazalMetabolizma / 1440; const antrenmanBazal = dakikalikBazal * sure;
-        const netKalori = (brutKalori - antrenmanBazal) * yasFaktoru + antrenmanBazal;
-        
-        const altSinir = Math.round(netKalori * 0.98); const ustSinir = Math.round(netKalori * 1.02);
-        
-        document.getElementById('kaloriSonuc').innerText = `🎉 Tahmini: ${altSinir} - ${ustSinir} kcal`;
+        const yas = parseInt(document.getElementById('yas').value);
+        const kilo = parseFloat(document.getElementById('kilo').value);
+        const egim = parseFloat(document.getElementById('egim').value);
+        const mesafe = parseFloat(document.getElementById('mesafe').value);
+        const sure = parseFloat(document.getElementById('sure').value);
+        if(isNaN(yas) || isNaN(kilo) || isNaN(egim) || isNaN(mesafe) || isNaN(sure)) { alert("Lütfen tüm alanları doldurun kral!"); return; }
+        const hizKmSa = mesafe / (sure / 60); const hizMDk = hizKmSa * 16.6667;
+        let vo2 = (hizKmSa < 8.0) ? (0.1 * hizMDk) + (1.8 * hizMDk * (egim / 100)) + 3.5 : (0.2 * hizMDk) + (0.9 * hizMDk * (egim / 100)) + 3.5;
+        const netKalori = (((((vo2 * kilo) / 200) * sure) - ((cinsiyet === 'e' ? 1.0 : 0.92) * (yas * 0.002) * sure)) * 0.98);
+        document.getElementById('kaloriSonuc').innerText = `🎉 Sonuç: ${Math.round(netKalori)} kcal`;
         document.getElementById('hizSonuc').innerText = hizKmSa.toFixed(2) + " km/s";
-        document.getElementById('turSonuc').innerText = aktiviteTuru;
-        
-        const resultBox = document.getElementById('resultBox');
-        resultBox.style.display = "block";
-        resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        document.getElementById('turSonuc').innerText = (hizKmSa < 8.0) ? "Yürüyüş" : "Koşu";
+        document.getElementById('resultBox').style.display = "block";
+        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 </body>
