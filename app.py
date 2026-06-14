@@ -8,27 +8,41 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. PRO KULLANIM İÇİN TÜM STREAMLIT LOGOLARINI, MENÜLERİNİ VE KULLANICI ADLARINI GİZLEYEN CSS KODU
+# 2. SAĞ ALTTAN GEÇİT VERMEYEN KESİN ÇÖZÜM CSS HİLESİ
 st.markdown("""
     <style>
-        /* Sağ üstteki Streamlit menüsünü ve GitHub logosunu tamamen uçur */
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
+        /* Sağ alt köşedeki 150px'e 150px'lik tüm alanı bembeyaz bir duvarla kapla ve butonları fiziksel olarak yok et */
+        div[data-testid="stSidebar"] + section + div,
+        iframe, 
+        .stDeployButton,
+        #manage-app-button,
+        footer {
+            display: none !important;
+            visibility: hidden !important;
+        }
         
-        /* Sayfanın üstündeki gereksiz boşlukları ve çizgileri temizle */
-        .stAppDeployButton {display:none !important;}
-        .viewerBadge_container__1QS1h {display:none !important;}
-        
-        /* Sağ tarafta çıkan o çirkin kopyalama (copy) butonlarını tamamen gizle */
+        /* Ekranın en altına, sağ alt köşedeki her şeyi kapatacak görünmez/beyaz bir maske yerleştir */
+        body::after {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 200px;
+            height: 80px;
+            background-color: #ffffff; /* Sayfa beyaz olduğu için burayı beyaz yapıyoruz, böylece altı asla görünmez */
+            z-index: 999999 !important;
+            pointer-events: none;
+        }
+
+        /* Üst menü ve kopyalama butonlarını gizle */
+        #MainMenu, header {visibility: hidden !important; display: none !important;}
         button[title="View source code"], button[title="Copy to clipboard"] {
             display: none !important;
         }
         
-        /* Mobil görünümü daha derli toplu yap */
         .block-container {
             padding-top: 2rem !important;
-            padding-bottom: 2rem !important;
+            padding-bottom: 5rem !important;
         }
     </style>
 """, unsafe_allow_html=True)
