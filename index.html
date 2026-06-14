@@ -15,7 +15,7 @@
             --border: #e2e8f0;
         }
 
-        /* Yıldırım hızında açılması için sistem fontları ve render optimizasyonu */
+        /* GÜVENLİK ÖNLEMİ: Tüm sayfada yazı seçmeyi tamamen engelle */
         * { 
             box-sizing: border-box; 
             margin: 0; 
@@ -24,6 +24,12 @@
             -webkit-tap-highlight-color: transparent;
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
+            
+            /* Yazı seçme engelleme kilitleri */
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none;    /* Firefox */
+            -ms-user-select: none;     /* IE10+ */
+            user-select: none;         /* Standart */
         }
 
         body { 
@@ -36,7 +42,6 @@
             min-height: 100vh;
         }
 
-        /* Tarayıcıya bu kutunun boyutunun sabit olduğunu söyleyerek hız kazandırıyoruz */
         .app-container { 
             background: var(--card-bg); 
             width: 100%; 
@@ -44,7 +49,7 @@
             padding: clamp(15px, 5vw, 30px); 
             border-radius: 20px; 
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            contain: content; /* Performans dopingi */
+            contain: content; 
         }
 
         h1 { 
@@ -95,6 +100,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* GÜVENLİK ÖNLEMİ: Input alanlarında sadece sayı yazımına izin ver, seçimi engelle */
         input, select { 
             padding: 12px clamp(10px, 3vw, 15px); 
             border: 2px solid var(--border); 
@@ -104,6 +110,8 @@
             width: 100%; 
             outline: none; 
             background: #fdfdfd;
+            -webkit-user-select: text; /* Input içine yazı yazılabilsin diye aktif */
+            user-select: text;
         }
 
         input:focus { 
@@ -243,6 +251,24 @@
 </div>
 
 <script>
+// GÜVENLİK ÖNLEMİ 1: Sağ tıklamayı tamamen kapat
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// GÜVENLİK ÖNLEMİ 2: Klavye kısayollarını (F12, Ctrl+U, Ctrl+Shift+I, Ctrl+S) engelle
+document.addEventListener('keydown', function(e) {
+    if (
+        e.keyCode == 123 || // F12
+        (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I (İncele)
+        (e.ctrlKey && e.keyCode == 85) || // Ctrl+U (Kaynak Kodu)
+        (e.ctrlKey && e.keyCode == 83)    // Ctrl+S (Kaydet)
+    ) {
+        e.preventDefault();
+        return false;
+    }
+});
+
 function kaloriHesapla() {
     const cinsiyet = document.querySelector('input[name="cinsiyet"]:checked').value;
     const yasInput = document.getElementById('yas').value;
