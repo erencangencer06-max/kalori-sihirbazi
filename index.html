@@ -5,195 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kalori Sihirbazı</title>
     <style>
-        :root {
-            --primary: #2980b9;
-            --primary-hover: #2171a3;
-            --success: #27ae60;
-            --bg: #f4f6f8;
-            --text: #2c3e50;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-        }
-
-        /* GÜVENLİK ÖNLEMİ: Tüm sayfada yazı seçmeyi tamamen engelle */
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            -webkit-tap-highlight-color: transparent;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            
-            /* Yazı seçme engelleme kilitleri */
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none;    /* Firefox */
-            -ms-user-select: none;     /* IE10+ */
-            user-select: none;         /* Standart */
-        }
-
-        body { 
-            background-color: var(--bg); 
-            color: var(--text); 
-            padding: min(5vw, 30px); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh;
-        }
-
-        .app-container { 
-            background: var(--card-bg); 
-            width: 100%; 
-            max-width: 480px; 
-            padding: clamp(15px, 5vw, 30px); 
-            border-radius: 20px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            contain: content; 
-        }
-
-        h1 { 
-            text-align: center; 
-            font-size: clamp(20px, 6vw, 24px); 
-            font-weight: 800;
-            margin-bottom: 6px; 
-            letter-spacing: -0.5px;
-        }
-
-        p.subtitle { 
-            text-align: center; 
-            font-size: clamp(12px, 3.5vw, 14px); 
-            color: #7f8c8d; 
-            margin-bottom: 25px; 
-            font-style: italic; 
-        }
-
-        h2 { 
-            font-size: clamp(14px, 4.5vw, 16px); 
-            margin: 20px 0 12px 0; 
-            border-bottom: 2px solid var(--border); 
-            padding-bottom: 6px;
-            font-weight: 700;
-            color: #34495e;
-        }
-
-        .row { 
-            display: flex; 
-            flex-wrap: wrap;
-            gap: 15px; 
-            margin-bottom: 15px; 
-        }
-
-        .col { 
-            flex: 1; 
-            min-width: 160px; 
-            display: flex; 
-            flex-direction: column; 
-        }
-
-        label { 
-            font-size: 12px; 
-            font-weight: 700; 
-            margin-bottom: 6px; 
-            color: #7f8c8d;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* GÜVENLİK ÖNLEMİ: Input alanlarında sadece sayı yazımına izin ver, seçimi engelle */
-        input, select { 
-            padding: 12px clamp(10px, 3vw, 15px); 
-            border: 2px solid var(--border); 
-            border-radius: 10px; 
-            font-size: 15px; 
-            font-weight: 500;
-            width: 100%; 
-            outline: none; 
-            background: #fdfdfd;
-            -webkit-user-select: text; /* Input içine yazı yazılabilsin diye aktif */
-            user-select: text;
-        }
-
-        input:focus { 
-            border-color: var(--primary); 
-            background: #fff;
-        }
-
-        input::placeholder {
-            color: #cbd5e1;
-        }
-
-        .radio-group { 
-            display: flex; 
-            gap: 15px; 
-            padding: 6px 0; 
-        }
-
-        .radio-group label { 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            font-weight: 600; 
-            font-size: 15px; 
-            color: var(--text);
-            cursor: pointer; 
-        }
-
-        .radio-group input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        button { 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            padding: clamp(12px, 4vw, 16px); 
-            width: 100%; 
-            border-radius: 12px; 
-            font-size: clamp(15px, 4.5vw, 17px); 
-            font-weight: 700; 
-            cursor: pointer; 
-            margin-top: 20px; 
-            transition: background 0.1s ease; 
-        }
-
-        button:hover { 
-            background: var(--primary-hover); 
-        }
-
-        .result-box { 
-            display: none; 
-            margin-top: 25px; 
-            background: #ebf5fb; 
-            border: 2px solid #d4e6f1; 
-            border-radius: 12px; 
-            padding: 20px; 
-            text-align: center; 
-        }
-
-        .result-title { 
-            color: var(--success); 
-            font-size: clamp(18px, 5vw, 22px); 
-            font-weight: 800; 
-            margin-bottom: 12px; 
-        }
-
-        .metrics { 
-            display: flex; 
-            justify-content: space-around; 
-            border-top: 1px solid #d4e6f1;
-            padding-top: 12px;
-            font-size: 14px; 
-            color: #566573;
-        }
-
-        .metric-val { 
-            font-weight: 700; 
-            color: var(--text); 
-        }
+        :root { --primary: #2980b9; --primary-hover: #2171a3; --success: #27ae60; --bg: #f4f6f8; --text: #2c3e50; --card-bg: #ffffff; --border: #e2e8f0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        body { background-color: var(--bg); color: var(--text); padding: min(5vw, 30px); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .app-container { background: var(--card-bg); width: 100%; max-width: 480px; padding: clamp(15px, 5vw, 30px); border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); contain: content; }
+        h1 { text-align: center; font-size: clamp(20px, 6vw, 24px); font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+        p.subtitle { text-align: center; font-size: clamp(12px, 3.5vw, 14px); color: #7f8c8d; margin-bottom: 25px; font-style: italic; }
+        h2 { font-size: clamp(14px, 4.5vw, 16px); margin: 20px 0 12px 0; border-bottom: 2px solid var(--border); padding-bottom: 6px; font-weight: 700; color: #34495e; }
+        .row { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; }
+        .col { flex: 1; min-width: 160px; display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: 700; margin-bottom: 6px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select { padding: 12px clamp(10px, 3vw, 15px); border: 2px solid var(--border); border-radius: 10px; font-size: 15px; font-weight: 500; width: 100%; outline: none; background: #fdfdfd; -webkit-user-select: text; user-select: text; }
+        input:focus { border-color: var(--primary); background: #fff; }
+        input::placeholder { color: #cbd5e1; }
+        .radio-group { display: flex; gap: 15px; padding: 6px 0; }
+        .radio-group label { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; color: var(--text); cursor: pointer; }
+        .radio-group input[type="radio"] { width: 18px; height: 18px; cursor: pointer; }
+        button { background: var(--primary); color: white; border: none; padding: clamp(12px, 4vw, 16px); width: 100%; border-radius: 12px; font-size: clamp(15px, 4.5vw, 17px); font-weight: 700; cursor: pointer; margin-top: 20px; transition: background 0.1s ease; }
+        button:hover { background: var(--primary-hover); }
+        .result-box { display: none; margin-top: 25px; background: #ebf5fb; border: 2px solid #d4e6f1; border-radius: 12px; padding: 20px; text-align: center; }
+        .result-title { color: var(--success); font-size: clamp(18px, 5vw, 22px); font-weight: 800; margin-bottom: 12px; }
+        .metrics { display: flex; justify-content: space-around; border-top: 1px solid #d4e6f1; padding-top: 12px; font-size: 14px; color: #566573; }
+        .metric-val { font-weight: 700; color: var(--text); }
     </style>
+    <script>
+        /* GÜVENLİK ÖNLEMİ 3: Başka sitelerin içinde (iframe) açılmayı kesin olarak engelle */
+        if (window.top !== window.self) { window.top.location = window.self.location; }
+    </script>
 </head>
 <body>
 
@@ -251,90 +89,59 @@
 </div>
 
 <script>
-// GÜVENLİK ÖNLEMİ 1: Sağ tıklamayı tamamen kapat
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});
+    /* GÜVENLİK ÖNLEMİ 1 & 2: Sağ tık ve klavye kısayollarını iptal et */
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85) || (e.ctrlKey && e.keyCode == 83)) {
+            e.preventDefault(); return false;
+        }
+    });
 
-// GÜVENLİK ÖNLEMİ 2: Klavye kısayollarını (F12, Ctrl+U, Ctrl+Shift+I, Ctrl+S) engelle
-document.addEventListener('keydown', function(e) {
-    if (
-        e.keyCode == 123 || // F12
-        (e.ctrlKey && e.shiftKey && e.keyCode == 73) || // Ctrl+Shift+I (İncele)
-        (e.ctrlKey && e.keyCode == 85) || // Ctrl+U (Kaynak Kodu)
-        (e.ctrlKey && e.keyCode == 83)    // Ctrl+S (Kaydet)
-    ) {
-        e.preventDefault();
-        return false;
+    function kaloriHesapla() {
+        const cinsiyet = document.querySelector('input[name="cinsiyet"]:checked').value;
+        const yasInput = document.getElementById('yas').value;
+        const kiloInput = document.getElementById('kilo').value;
+        const egimInput = document.getElementById('egim').value;
+        const mesafeInput = document.getElementById('mesafe').value;
+        const sureInput = document.getElementById('sure').value;
+        
+        if(!yasInput || !kiloInput || !egimInput || !mesafeInput || !sureInput) {
+            alert("Lütfen tüm alanları doldurun kral!"); return;
+        }
+        
+        const yas = parseInt(yasInput); const kilo = parseFloat(kiloInput); const egim = parseFloat(egimInput); const mesafe = parseFloat(mesafeInput); const sure = parseFloat(sureInput);
+        if(mesafe <= 0 || sure <= 0) { alert("Mesafe ve süre değerleri 0'dan büyük olmalıdır!"); return; }
+        
+        const egimOndalik = egim / 100; const hizKmSa = mesafe / (sure / 60); const hizMDk = hizKmSa * 16.6667;
+        let vo2 = 0; let aktiviteTuru = "";
+        
+        if (hizKmSa < 8.0) { aktiviteTuru = "Yürüyüş"; vo2 = (0.1 * hizMDk) + (1.8 * hizMDk * egimOndalik) + 3.5; } 
+        else { aktiviteTuru = "Koşu"; vo2 = (0.2 * hizMDk) + (0.9 * hizMDk * egimOndalik) + 3.5; }
+        
+        const brutKalori = ((vo2 * kilo) / 200) * sure;
+        let bazalMetabolizma = 0; let yasFaktoru = 0;
+        
+        if (cinsiyet === 'e') {
+            bazalMetabolizma = 66.47 + (13.75 * kilo) + (5.0 * 170) - (6.75 * yas);
+            yasFaktoru = Math.max(0.90, 1.0 - ((yas - 20) * 0.002));
+        } else {
+            bazalMetabolizma = 655.1 + (9.56 * kilo) + (1.85 * 170) - (4.68 * yas);
+            yasFaktoru = Math.max(0.85, 0.92 - ((yas - 20) * 0.002));
+        }
+        
+        const dakikalikBazal = bazalMetabolizma / 1440; const antrenmanBazal = dakikalikBazal * sure;
+        const netKalori = (brutKalori - antrenmanBazal) * yasFaktoru + antrenmanBazal;
+        
+        const altSinir = Math.round(netKalori * 0.98); const ustSinir = Math.round(netKalori * 1.02);
+        
+        document.getElementById('kaloriSonuc').innerText = `🎉 Tahmini Kalori: ${altSinir} - ${ustSinir} kcal`;
+        document.getElementById('hizSonuc').innerText = hizKmSa.toFixed(2) + " km/s";
+        document.getElementById('turSonuc').innerText = aktiviteTuru;
+        
+        const resultBox = document.getElementById('resultBox');
+        resultBox.style.display = "block";
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-});
-
-function kaloriHesapla() {
-    const cinsiyet = document.querySelector('input[name="cinsiyet"]:checked').value;
-    const yasInput = document.getElementById('yas').value;
-    const kiloInput = document.getElementById('kilo').value;
-    const egimInput = document.getElementById('egim').value;
-    const mesafeInput = document.getElementById('mesafe').value;
-    const sureInput = document.getElementById('sure').value;
-    
-    if(!yasInput || !kiloInput || !egimInput || !mesafeInput || !sureInput) {
-        alert("Lütfen tüm alanları doldurun kral!");
-        return;
-    }
-    
-    const yas = parseInt(yasInput);
-    const kilo = parseFloat(kiloInput);
-    const egim = parseFloat(egimInput);
-    const mesafe = parseFloat(mesafeInput);
-    const sure = parseFloat(sureInput);
-    
-    if(mesafe <= 0 || sure <= 0) {
-        alert("Mesafe ve süre değerleri 0'dan büyük olmalıdır!");
-        return;
-    }
-    
-    const egimOndalik = egim / 100;
-    const hizKmSa = mesafe / (sure / 60);
-    const hizMDk = hizKmSa * 16.6667;
-    
-    let vo2 = 0;
-    let aktiviteTuru = "";
-    
-    if (hizKmSa < 8.0) {
-        aktiviteTuru = "Yürüyüş";
-        vo2 = (0.1 * hizMDk) + (1.8 * hizMDk * egimOndalik) + 3.5;
-    } else {
-        aktiviteTuru = "Koşu";
-        vo2 = (0.2 * hizMDk) + (0.9 * hizMDk * egimOndalik) + 3.5;
-    }
-    
-    const brutKalori = ((vo2 * kilo) / 200) * sure;
-    let bazalMetabolizma = 0;
-    let yasFaktoru = 0;
-    
-    if (cinsiyet === 'e') {
-        bazalMetabolizma = 66.47 + (13.75 * kilo) + (5.0 * 170) - (6.75 * yas);
-        yasFaktoru = Math.max(0.90, 1.0 - ((yas - 20) * 0.002));
-    } else {
-        bazalMetabolizma = 655.1 + (9.56 * kilo) + (1.85 * 170) - (4.68 * yas);
-        yasFaktoru = Math.max(0.85, 0.92 - ((yas - 20) * 0.002));
-    }
-    
-    const dakikalikBazal = bazalMetabolizma / 1440;
-    const antrenmanBazal = dakikalikBazal * sure;
-    const netKalori = (brutKalori - antrenmanBazal) * yasFaktoru + antrenmanBazal;
-    
-    const altSinir = Math.round(netKalori * 0.98);
-    const ustSinir = Math.round(netKalori * 1.02);
-    
-    document.getElementById('kaloriSonuc').innerText = `🎉 Tahmini Kalori: ${altSinir} - ${ustSinir} kcal`;
-    document.getElementById('hizSonuc').innerText = hizKmSa.toFixed(2) + " km/s";
-    document.getElementById('turSonuc').innerText = aktiviteTuru;
-    
-    const resultBox = document.getElementById('resultBox');
-    resultBox.style.display = "block";
-    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
 </script>
 </body>
 </html>
